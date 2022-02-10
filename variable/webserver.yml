@@ -1,0 +1,51 @@
+---
+- name: Install Web package and configure
+  hosts: [ubuntu1,centos1]
+  become: true
+
+  tasks:
+    - name: Install {{ web_package }}
+      package:
+        name: "{{ web_package }}"
+        state: latest
+
+    - name: Enable and start {{ web_service }} service
+      service:
+        name: "{{ web_service }}"
+        enabled: yes
+        state: started 
+
+    - name: Check {{ web_service }} status
+      shell:
+        cmd: sudo systemctl status "{{  web_service }}" | grep Active* 
+      register: web_service_status
+
+    - name: Print {{ web_service }} status
+      debug:
+        msg: " Status: {{ web_service_status }}"
+
+ 
+
+    - name: Change content of welcome page Ubuntu
+      copy:
+        content: "{{ content_value }}"
+        dest: "{{ host_dest }}"
+      when: ansible_os_family == "Debian"
+
+    - name: Change content of welcome page RedHat
+      copy:
+        content: "{{ content_value }}"
+        dest: "{{ host_dest }}"
+      when: ansible_os_family == "RedHat"
+   
+
+
+- name: Test Web page
+  hosts: [ubuntu1,centos1]
+  become: no
+
+  tasks:
+    - name: Connect to {{ web_package }} webserver
+      uri:
+        url: http://{{ansible_host}}
+        status_code: 200 

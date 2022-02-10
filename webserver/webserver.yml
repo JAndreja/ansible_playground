@@ -1,0 +1,31 @@
+---
+- name: Install nginx and configure
+  hosts: ubuntu1
+  become: true
+
+  tasks:
+    - name: Install nginx
+      package:
+        name: nginx
+        state: latest
+
+    - name: Enable and start nginx service
+      service:
+        name: nginx
+        enabled: yes
+        state: started
+
+    - name: Change content of welcome page
+      copy:
+        content: "Welcome  <b>Andreja</b> to your first web page!\n"
+        dest:  /var/www/html/index.html 
+
+- name: Test Web page
+  hosts: ubuntu-c
+  become: no
+
+  tasks:
+    - name: Connect to webserver
+      uri:
+        url: http://ubuntu1
+        status_code: 200 

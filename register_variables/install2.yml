@@ -1,0 +1,14 @@
+---
+- name: Run a command
+  hosts: ubuntu1
+  become: true
+
+  tasks:
+    - name: Install Nginx
+      shell: 'ls -la'
+      register : shell_out
+      ignore_errors: yes
+
+    - name: Print the output
+      debug:
+         msg: "{{ shell_out.stdout_lines[2] }}"

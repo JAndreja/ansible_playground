@@ -1,0 +1,23 @@
+---
+- name: Install Web Package
+  hosts: ubuntu1
+  become: true
+
+  tasks:
+    - name: Install Nginx
+      apt:
+         name: nginx
+         state: latest
+      register : yum_out
+      ignore_errors: yes
+
+    - name: Print the output
+      debug:
+         msg:
+          - Changed: "{{ yum_out.changed }}"
+          - Failed: "{{ yum_out.failed }}"
+
+    - name: Print if Failed
+      debug:
+         msg: "{{ yum_out }}"
+      when: yum.out.failed = true

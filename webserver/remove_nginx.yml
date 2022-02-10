@@ -1,0 +1,14 @@
+---
+- name: Remove NGINX
+  hosts: centos1
+  become: true
+
+  tasks:
+    - name: Stop services
+      service:
+         name: nginx
+         state: stopped
+    - name: Remove nginx
+      package:
+        name: nginx
+        state: absent

@@ -1,0 +1,5 @@
+web_package: nginx
+web_package_remove: [nginx,nginx-common]
+web_service: nginx
+content_value: "Welcome  <b>Andreja</b> to your first web page!\n"
+host_dest: "/var/www/html/index.html"

@@ -1,0 +1,21 @@
+---
+- name: Remove WEB PACKAGE
+  hosts: [ubuntu1,centos1]
+  become: true
+
+  tasks:
+    - name: Stop {{ web_package }} service
+      service:
+         name: "{{ web_package }}"
+         state: stopped
+    - name: Remove {{ web_package}}
+      package:
+        name: "{{ web_package_remove }}"
+        state: absent
+      when: ansible_os_family == "Debian"
+
+    - name: Remove {{ web_package}}
+      package:
+        name: "{{ web_package_remove }}"
+        state: absent
+      when: ansible_os_family == "RedHat"   
