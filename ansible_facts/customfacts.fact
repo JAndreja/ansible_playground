@@ -1,0 +1,4 @@
+[facts]
+pkgname = samba
+srvc = smbd
+srvc_1 = smb

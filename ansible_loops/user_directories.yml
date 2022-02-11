@@ -1,0 +1,25 @@
+---
+-
+ hosts: ubuntu
+ become: true
+
+ tasks:
+
+#   - name: print
+#     debug:
+#       msg: "{{ item }}"
+#     with_nested:
+#       - [ james, hayley, freya, lily, anwen, abhishek, sara ]
+#       - [ photos, movies, documents ]
+
+
+   - name: Creating user directories
+     file:
+       dest: "/home/{{ item.0 }}/{{ item.1 }}" 
+       owner: "{{ item.0 }}"
+       group: "{{ item.0 }}"
+       state: directory
+     with_nested:
+       - [ james, hayley, freya, lily, anwen, abhishek, sara ]
+       - [ photos, movies, documents ]
+

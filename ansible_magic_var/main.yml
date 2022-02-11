@@ -1,0 +1,23 @@
+---
+- name: Magic var
+  hosts: multi
+  become: true
+
+  tasks:
+    - name: Show Vars
+      debug:
+        msg: "{{ inventory_hostname }}"
+
+    - name: Show Vars
+      debug:
+        msg: "{{ groups }}" 
+
+
+    - name: Show Vars
+      debug:
+        msg: "{{ ansible_user }}" 
+
+
+    - name: Show Vars
+      debug:
+        msg: "{{ group_names }}" 

@@ -1,0 +1,15 @@
+---
+-
+ hosts: multi
+ become: true
+
+ tasks:
+  - name: Create users
+    user:
+      name: "{{ item }}"
+      state: absent
+    with_items:
+       - Petko
+       - Janko
+       - Stanko
+       - Trpe 

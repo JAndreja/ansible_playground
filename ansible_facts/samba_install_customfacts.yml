@@ -1,0 +1,44 @@
+---
+- name: Install custom facts
+  hosts:
+     - ubuntu2
+     - centos2
+  become: true
+  vars:
+    remote_dir: /etc/ansible/facts.d
+    facts_file: customfacts.fact
+
+  tasks:
+    - name: Create Facts DIR on remote servers
+      file:
+        path: "{{ remote_dir }}"
+        state: directory
+
+    - name: Copy facts
+      copy:
+        src: "{{ facts_file }}"
+        dest: "{{ remote_dir }}"
+
+- name: Install Samba Server with custom facts
+  hosts: [ ubuntu2,centos2]
+  become: true
+
+  tasks:
+    - name: Install SMB Ubuntu
+      package:
+        name: "{{ansible_local.customfacts.facts.pkgname }}"
+        state: present
+    - name: start SMB service
+      service:
+        name: "{{ansible_local.customfacts.facts.srvc }}"
+        state: started
+        enabled: yes 
+      when: ansible_distribution == "Ubuntu"
+
+
+    - name: start SMB service RedHat
+      service:
+        name: "{{ansible_local.customfacts.facts.srvc_1 }}"
+        state: started
+        enabled: yes 
+      when: ansible_distribution == "CentOS"

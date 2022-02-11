@@ -1,0 +1,18 @@
+---
+- name: Ansible Fact Demo
+  hosts:
+     - ubuntu1
+
+  tasks:
+    - name: Show details
+      debug:
+        msg: " {{ ansible_hostname }} {{ ansible_default_ipv4.address }} {{ ansible_memory_mb.real }}"
+
+    - name: Custom facts
+      debug:
+        msg: " {{ ansible_local.test }}"
+
+   
+    - name: Custom facts
+      debug:
+        msg: " {{ ansible_local.test.facts.ime }}"

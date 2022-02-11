@@ -1,0 +1,30 @@
+---
+-
+  hosts: ubuntu
+  become: true
+  tasks:
+    - name: Creating user
+      user:
+        name: "{{ item.1 }}"
+        comment: "{{ item.1 | title }} {{ item.0.surname }}"
+        # https://docs.ansible.com/ansible/latest/plugins/lookup/password.htm     
+        password: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits,hexdigits,punctuation') | password_hash('sha512') }}"
+      with_subelements:
+        -
+          - surname: Spurin
+            members:
+             - james
+             - hayley
+             - lily
+             - anwen
+          - surname: Darlington
+            members:
+             - freya
+          - surname: Angne
+            members:
+             - abhishek
+          - surname: Mahmood
+            members:
+             - sara
+        - members
+

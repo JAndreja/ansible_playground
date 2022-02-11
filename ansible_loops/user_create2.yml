@@ -1,0 +1,18 @@
+---
+-
+ hosts: multi
+ become: true
+
+ tasks:
+  - name: Create users
+    user:
+      name: "{{ item.key }}"
+      comment: "{{ item.value.full_name }}" 
+      state: absent
+    with_dict:
+       Petko:
+         full_name: Petko Petkovski
+       Mitko:
+         full_name: Mitko Mitkovski
+       Risto:
+         full_name: Risto Ristovski

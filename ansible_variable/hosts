@@ -1,0 +1,14 @@
+[local]
+ubuntu-c ansible_connection=local
+
+[centos]
+centos1
+centos2
+
+[ubuntu]
+ubuntu1
+ubuntu2
+
+[multi:children]
+centos
+ubuntu

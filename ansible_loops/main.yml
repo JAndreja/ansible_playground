@@ -1,0 +1,17 @@
+---
+-
+  hosts: ubuntu1
+  become: true
+
+  tasks:
+    - name: with item
+      debug:
+        msg: "Welcome {{ item }},how are you" 
+      with_items: [Andreja,Radica] 
+
+    - name: with list 
+      debug:
+        msg: "Welcome {{ item }},how are you" 
+      with_list:
+         - Andreja
+         - Radica
